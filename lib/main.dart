@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
@@ -28,19 +28,19 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       count--;
     });
-    print(count);
   }
 
   void increment() {
     setState(() {
       count++;
     });
-    print(count);
   }
+
+  bool get isEmpty => count == 0;
+  bool get isFull => count == 20;
 
   @override
   Widget build(BuildContext context) {
-    print('Build');
 
     return Scaffold(
         backgroundColor: Colors.red,
@@ -54,9 +54,9 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Pode entrar!',
-                style: TextStyle(
+              Text(
+                isFull ? 'Lotado' : 'Pode entrar!',
+                style: const TextStyle(
                   fontSize: 30,
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
@@ -66,9 +66,9 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(40),
                 child: Text(
                   count.toString(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 100,
-                    color: Colors.white,
+                    color: isFull ? Colors.red : Colors.white,
                   ),
                 ),
               ),
@@ -76,9 +76,9 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: decrement,
+                    onPressed: isEmpty ? null : decrement,
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: isEmpty ? Colors.white.withOpacity(0.2) : Colors.white,
                       fixedSize: const Size(100, 100),
                       primary: Colors.black,
                       shape: RoundedRectangleBorder(
@@ -98,14 +98,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: isFull ? Colors.white.withOpacity(0.2) : Colors.white,
                       fixedSize: const Size(100, 100),
                       primary: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24),
                       ),
                     ),
-                    onPressed: increment,
+                    onPressed: isFull ? null : increment,
                     child: const Text(
                       'Entrou',
                       style: TextStyle(
